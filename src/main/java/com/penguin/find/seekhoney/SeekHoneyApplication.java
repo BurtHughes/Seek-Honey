@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SeekHoneyApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(SeekHoneyApplication.class, args);
     }
