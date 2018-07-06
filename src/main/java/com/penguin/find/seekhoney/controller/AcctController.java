@@ -1,5 +1,7 @@
 package com.penguin.find.seekhoney.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.penguin.find.seekhoney.util.Http;
 import com.penguin.find.seekhoney.util.Log;
 import com.penguin.find.seekhoney.util.Util;
 import com.penguin.find.seekhoney.vo.ResponseVo;
@@ -55,13 +57,24 @@ public class AcctController {
         Collections.sort(list);
         String str = (String)list.get(0) + list.get(1) + list.get(2);
         String result = DigestUtils.sha1Hex(str);
-        System.out.println("signature:" + signature);
-        System.out.println("   result:" + result);
         if (signature.equals(result)) {
             return echoStr;
         } else {
             return "";
         }
+    }
+
+    @RequestMapping("/authSuccess")
+    public String authSuccess(HttpServletRequest request) {
+        Map param = Util.getParam(request);
+        Log.info("授权成功:"+param.toString());
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?" +
+                "appid=wxaf8ebc4b41979524&secret=e92e32bacc12ae65d507d6282b6c89a4&code=";
+        url += String.valueOf(param.get("code")) + "&grant_type=authorization_code";
+        JSONObject obj = Http.get(url);
+        String accessToken = String.valueOf(obj.get("access_token"));
+        param.put("accessToken", accessToken);
+        return "授权成功！" + param;
     }
 
     @RequestMapping("/loginPage")
