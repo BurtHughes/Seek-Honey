@@ -1,5 +1,6 @@
 package com.penguin.find.seekhoney.controller;
 
+import com.penguin.find.seekhoney.util.Log;
 import com.penguin.find.seekhoney.util.Util;
 import com.penguin.find.seekhoney.vo.ResponseVo;
 import org.apache.commons.collections.MapUtils;
@@ -30,6 +31,7 @@ public class AcctController {
      */
     @RequestMapping("/")
     public String home(HttpServletRequest request) {
+        Log.info("根请求");
         return new ResponseVo().toJson();
     }
     
