@@ -16,8 +16,9 @@ public class Http {
         try {
             httpClient.executeMethod(httpMethod);
             String response = httpMethod.getResponseBodyAsString();
-            Log.info("Http请求响应内容:" + response);
-            obj = (JSONObject) JSONObject.parse(response);
+            String newStr = new String(response.getBytes("ISO-8859-1"), "UTF-8");
+            Log.info("Http请求响应内容:" + newStr);
+            obj = (JSONObject) JSONObject.parse(newStr);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

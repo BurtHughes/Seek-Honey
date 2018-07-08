@@ -1,6 +1,8 @@
 package com.penguin.find.seekhoney.vo;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.penguin.find.seekhoney.constant.ErrorCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.Map;
 public class ResponseVo {
 
     /* 响应码 */
-    private String code = "";
+    private int code = -1;
 
     /* 响应信息 */
     private String msg = "";
@@ -26,18 +28,63 @@ public class ResponseVo {
     private Map data = new HashMap();
 
     /**
+     * 构造方法
+     */
+    public ResponseVo() {
+
+    }
+
+    /**
+     * 构造方法
+     */
+    public ResponseVo(ErrorCode errorCode) {
+        this.code = errorCode.code();
+        this.msg = errorCode.msg();
+    }
+
+    /**
+     * 构造方法
+     * @param code 返回码
+     * @param msg 返回信息
+     */
+    public ResponseVo(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    /**
+     * 构造方法
+     * @param map 返回数据
+     */
+    public ResponseVo(Map map) {
+        data = map;
+        this.code = ErrorCode.SUCCESS.code();
+        this.msg = ErrorCode.SUCCESS.msg();
+    }
+
+    /**
+     * 构造方法
+     * @param json 返回数据
+     */
+    public ResponseVo(JSONObject json) {
+        data = json;
+        this.code = ErrorCode.SUCCESS.code();
+        this.msg = ErrorCode.SUCCESS.msg();
+    }
+
+    /**
      * 将响应对象转换为json格式字符串
      * @return
      */
-    public String toJson(){
+    public String toJson() {
         return JSON.toJSONString(this);
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

@@ -34,4 +34,26 @@ public class Util {
         }
         return param;
     }
+
+    /**
+     * 将Map转换为查询串
+     * @param map 待转换的Map
+     * @return 查询串
+     */
+    public static String getQueryString(Map map) {
+        String queryString = "?";
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            if (queryString.length() == 1) {
+                queryString += key + "=" + value;
+            } else {
+                queryString += "&" + key + "=" + value;
+            }
+        }
+        return queryString;
+    }
+
 }
