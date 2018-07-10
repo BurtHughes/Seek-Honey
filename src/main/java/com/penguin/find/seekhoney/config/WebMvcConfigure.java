@@ -14,7 +14,7 @@ import java.util.List;
  * @Description:
  */
 @Configuration
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+public class WebMvcConfigure extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();

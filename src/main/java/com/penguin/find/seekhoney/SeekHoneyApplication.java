@@ -1,5 +1,6 @@
 package com.penguin.find.seekhoney;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,11 +13,13 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @Date: 2018/6/7 22:38
  * @Description:
  */
-@SpringBootApplication(exclude={
+/*@SpringBootApplication(exclude={
         DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class})
+        HibernateJpaAutoConfiguration.class})*/
+@SpringBootApplication
 @ServletComponentScan
+@MapperScan("com.penguin.find.seekhoney.mapper")
 public class SeekHoneyApplication {
     
     public static void main(String[] args) {
