@@ -1,5 +1,8 @@
 package com.penguin.find.seekhoney.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.penguin.find.seekhoney.model.User;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -54,6 +57,16 @@ public class Util {
             }
         }
         return queryString;
+    }
+
+    /**
+     * 判断请求微信接口是否成功
+     * @param object 返回对象
+     * @return 成功与否标志
+     */
+    public static boolean isOk(JSONObject object) {
+        Integer errCode = object.getInteger("errcode");
+        return null == errCode || 0 == errCode;
     }
 
 }

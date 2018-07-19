@@ -73,6 +73,15 @@ public class ResponseVo {
     }
 
     /**
+     * 设置返回码和返回信息
+     * @param errorCode 返回码以及返回信息
+     */
+    public void setCodeAndMsg(ErrorCode errorCode) {
+        this.code = errorCode.code();
+        this.msg = errorCode.msg();
+    }
+
+    /**
      * 将响应对象转换为json格式字符串
      * @return
      */

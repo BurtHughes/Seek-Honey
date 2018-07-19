@@ -6,7 +6,8 @@ package com.penguin.find.seekhoney.constant;
 public enum  ErrorCode {
     /* 执行成功 */
     SUCCESS(0, "成功"),
-    WX_GET_SERVER_IP(1, "获取微信服务器IP地址失败");
+    WX_GET_SERVER_IP(1, "获取微信服务器IP地址失败"),
+    WX_JS_API_AUTH_URL_EMPTY(2, "url入参不能为空");
 
     /**
      * 返回码

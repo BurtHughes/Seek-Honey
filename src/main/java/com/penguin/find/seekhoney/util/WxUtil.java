@@ -15,12 +15,12 @@ public class WxUtil {
     /**
      * 微信appid
      */
-    private static final String appId = "wxe85ee3954aba7f8c";
+    private static final String appId = "wxbbae07643dedb8a7";
 
     /**
      * 微信appSecret
      */
-    private static final String appSecret = "d7cd3d3609ca8f0cfd56e139ecc967b0";
+    private static final String appSecret = "e701593f6e6d193a4a411a1196b980ca";
 
     /**
      * 普通access_token
@@ -39,12 +39,29 @@ public class WxUtil {
     private long lastTime = 0;
 
     /**
+     * 微信JS-SDK的jsapi_ticket<br/>
+     * 公众号用于调用微信JS接口的临时票据，正常情况下，jsapi_ticket的有效期为7200秒，通过access_token来获取
+     */
+    private String jsApiTicket = "";
+
+    /**
+     * 微信JS-SDK的上一次获取时间点
+     */
+    private long jsApiTicketLastTime = 0;
+
+    /**
+     * 微信JS-SDK的有效期
+     */
+    private long jsApiTicketExpiration = 0;
+
+    /**
      * 获取普通access_token<br/>
      * 如果发现已经过期，会重新请求新的普通access_token
      * @return 普通access_token
      */
     public String getAccessToken() throws Exception {
-        if (isNeedRefresh()) {
+        boolean isNeedRefresh = System.currentTimeMillis() - lastTime > expiration;
+        if (isNeedRefresh) {
             String url = "https://api.weixin.qq.com/cgi-bin/token";
             Map map = new HashMap();
             map.put("grant_type", "client_credential");
@@ -52,8 +69,7 @@ public class WxUtil {
             map.put("secret", appSecret);
             url += Util.getQueryString(map);
             JSONObject obj = Http.get(url);
-            Object errCode = obj.get("errcode");
-            if (null != errCode) {
+            if (Util.isOk(obj)) {
                 String errMsg = obj.getString("errmsg");
                 String msg = "获取普通access_token失败:" + errMsg;
                 Log.error(msg);
@@ -67,6 +83,31 @@ public class WxUtil {
             }
         }
         return accessToken;
+    }
+
+    /**
+     * 刷新微信JS-SDK请求票据
+     */
+    public String getJsApiTicket() {
+        boolean needRefresh = System.currentTimeMillis() - jsApiTicketLastTime > jsApiTicketExpiration;
+        if (needRefresh) {
+            String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+            Map map = new HashMap();
+            try {
+                map.put("access_token", getAccessToken());
+                map.put("type", "jsapi");
+                url += Util.getQueryString(map);
+                JSONObject obj = Http.get(url);
+                if (Util.isOk(obj)) {
+                    jsApiTicket = obj.getString("ticket");
+                    jsApiTicketExpiration = obj.getLongValue("expires_in");
+                    jsApiTicketLastTime = System.currentTimeMillis();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return jsApiTicket;
     }
 
     /**
@@ -164,15 +205,4 @@ public class WxUtil {
         Log.info("刷新微信网页授权凭证:" + obj);
         return obj;
     }
-
-    /**
-     * 判断是否需要刷新普通access_token<br/>
-     * 首次加载或超过有效期，需重新获取普通access_token
-     * @return 是否需要刷新普通access_token
-     */
-    private boolean isNeedRefresh() {
-        long current = System.currentTimeMillis();
-        return current - lastTime > expiration;
-    }
-
 }

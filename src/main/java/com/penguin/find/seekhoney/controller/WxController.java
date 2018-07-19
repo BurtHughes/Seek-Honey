@@ -1,13 +1,14 @@
 package com.penguin.find.seekhoney.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.penguin.find.seekhoney.util.BeanUtil;
-import com.penguin.find.seekhoney.util.Log;
-import com.penguin.find.seekhoney.util.Util;
-import com.penguin.find.seekhoney.util.WxUtil;
+import com.penguin.find.seekhoney.constant.ErrorCode;
+import com.penguin.find.seekhoney.util.*;
+import com.penguin.find.seekhoney.vo.ResponseVo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -86,5 +87,46 @@ public class WxController {
 //        userMapper.insert(user);
 
         return userInfo.toJSONString();
+    }
+
+    @GetMapping("/WeXinServerIP")
+    public String getWeXinServerIP() {
+        WxUtil wxUtil = (WxUtil) BeanUtil.getBean("wxUtil");
+        try {
+            JSONObject result = wxUtil.getWxServerIPs();
+            return new ResponseVo(result).toJson();
+        } catch (Exception e) {
+            return new ResponseVo(ErrorCode.WX_GET_SERVER_IP).toJson();
+        }
+    }
+
+    /**
+     * 获取微信jsapi_ticket<br/>
+     * 微信JS-SDK注入权限验证配置时，生成签名字段时需要用到
+     * @return jsapi_ticket
+     */
+    @GetMapping("/jsApiTicket")
+    public String getJsApiTicket() {
+        WxUtil wxUtil = (WxUtil) BeanUtil.getBean("wxUtil");
+        return wxUtil.getJsApiTicket();
+    }
+
+    /**
+     * 获取微信JS-SDK权限验证配置所需参数<br/>
+     * 所需参数：appId、timestamp、nonceStr、signature
+     * @return 参数Map
+     */
+    @GetMapping("/jsApiAuthParam")
+    public String getJsApiAuthParam(HttpServletRequest request) {
+        ResponseVo response = new ResponseVo(ErrorCode.SUCCESS);
+        Map inMap = Util.getParam(request);
+        String url = MapUtils.getString(inMap, "url", "");
+        if (StringUtils.isEmpty(url)) {
+            response.setCodeAndMsg(ErrorCode.WX_JS_API_AUTH_URL_EMPTY);
+        }
+        WxJsApi wxJsApi = (WxJsApi) BeanUtil.getBean("wxJsApiAuth");
+        Map retMap = wxJsApi.getAuthParam(url);
+        response.setData(retMap);
+        return response.toJson();
     }
 }

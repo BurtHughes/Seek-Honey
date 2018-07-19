@@ -32,7 +32,8 @@ public class CrossFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        allowOrigin = filterConfig.getInitParameter("allowOrigin");
+//        allowOrigin = filterConfig.getInitParameter("allowOrigin");
+        allowOrigin = "http://localhost:3000";
         allowMethods = filterConfig.getInitParameter("allowMethods");
         allowCredentials = filterConfig.getInitParameter("allowCredentials");
         allowHeaders = filterConfig.getInitParameter("allowHeaders");
@@ -45,7 +46,7 @@ public class CrossFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         if (!StringUtils.isEmpty(allowOrigin)) {
             List<String> allowOriginList = Arrays.asList(allowOrigin.split(","));
-            if (Util.isListEmpty(allowOriginList)) {
+            if (!Util.isListEmpty(allowOriginList)) {
                 String currentOrigin = request.getHeader("Origin");
                 if (allowOriginList.contains(currentOrigin)) {
                     response.setHeader("Access-Control-Allow-Origin", currentOrigin);
