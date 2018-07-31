@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.penguin.find.seekhoney.model.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -34,6 +35,25 @@ public class Util {
             String key = enumeration.nextElement().toString();
             String value = request.getParameter(key);
             param.put(key, value);
+        }
+        return param;
+    }
+
+    public static Map getParam(HttpServletRequest request, String type) {
+        Map param = new HashMap();
+        try {
+            InputStream is = request.getInputStream();
+            InputStreamReader reader = new InputStreamReader(is);
+            BufferedReader reader1 = new BufferedReader(reader);
+            String line = "";
+            StringBuffer str = new StringBuffer();
+            while ((line=reader1.readLine()) != null) {
+                str.append(line);
+            }
+            Log.info(str.toString());
+            param = (Map) JSONObject.parse(str.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return param;
     }

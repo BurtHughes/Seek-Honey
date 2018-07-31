@@ -1,6 +1,7 @@
 package com.penguin.find.seekhoney.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.penguin.find.seekhoney.constant.ErrorCode;
 import com.penguin.find.seekhoney.mapper.UserMapper;
 import com.penguin.find.seekhoney.model.User;
 import com.penguin.find.seekhoney.util.Log;
@@ -8,6 +9,7 @@ import com.penguin.find.seekhoney.util.Util;
 import com.penguin.find.seekhoney.vo.ResponseVo;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,13 +46,35 @@ public class AcctController {
      */
     @PostMapping("register")
     public String register(HttpServletRequest request) {
-        Map inMap = Util.getParam(request);
-        System.out.println("请求参数:"+inMap);
+        Map inMap = Util.getParam(request, "json");
+        System.out.println("请求参数:" + inMap);
         User user = new User();
-        user.setName(MapUtils.getString(inMap, "name", ""));
-        user.setPassword(MapUtils.getString(inMap, "password", ""));
-        userMapper.insert(user);
-        return "注册成功";
+        String name = MapUtils.getString(inMap, "name", "");
+        String password = MapUtils.getString(inMap, "password", "");
+        User existUser = userMapper.getByName(name);
+        if (null != existUser && name.equals(existUser.getName()) && !StringUtils.isEmpty(name)) {
+            return new ResponseVo(ErrorCode.EXIST_USER).toJson();
+        }
+        user.setName(name);
+        user.setPassword(password);
+        try {
+            userMapper.insert(user);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+        }
+        User newUser = userMapper.getByName(name);
+        ResponseVo responseVo = new ResponseVo();
+        boolean isNameEqual = name.equals(newUser.getName());
+        boolean isPwdEqual = password.equals(newUser.getPassword());
+        if (isNameEqual && isPwdEqual) {
+            responseVo.setCodeAndMsg(ErrorCode.SUCCESS);
+            Map retMap = new HashMap();
+            retMap.put("user_name", newUser.getName());
+            responseVo.setData(retMap);
+        } else {
+            responseVo.setCodeAndMsg(ErrorCode.REGISTER);
+        }
+        return responseVo.toJson();
     }
 
     /**

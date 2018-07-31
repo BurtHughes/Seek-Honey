@@ -13,11 +13,18 @@ public interface UserMapper {
     void insert(User user);
 
     /**
-     * 查询用户
+     * 查询用户(根据ID)
      * @param id 用户ID
      * @return
      */
     User getById(int id);
+
+    /**
+     * 查询用户(根据用户名)
+     * @param name 用户名
+     * @return
+     */
+    User getByName(String name);
 
     /**
      * 更新用户

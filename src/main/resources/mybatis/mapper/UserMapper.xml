@@ -11,6 +11,10 @@
         select id,name,password,sex,country,province,city,headimgurl,openid,web_access_token,web_refresh_token,privilege,expires_in from user_info where id = #{id}
     </select>
 
+    <select id="getByName" parameterType="String" resultType="com.penguin.find.seekhoney.model.User">
+        select id,name,password,sex,country,province,city,headimgurl,openid,web_access_token,web_refresh_token,privilege,expires_in from user_info where name = #{name}
+    </select>
+
     <update id="update" parameterType="com.penguin.find.seekhoney.model.User">
         update user_info set sex = #{sex},country=#{country},province=#{province},city=#{city},headimgurl=#{headimgurl} where id = #{id}
     </update>

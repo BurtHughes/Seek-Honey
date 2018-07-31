@@ -21,9 +21,6 @@ public class ResponseVo {
     /* 响应信息 */
     private String msg = "";
 
-    /* 下一步的URL */
-    private String nextUrl = "";
-
     /* 返回的数据对象 */
     private Map data = new HashMap();
 
@@ -103,14 +100,6 @@ public class ResponseVo {
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public String getNextUrl() {
-        return nextUrl;
-    }
-
-    public void setNextUrl(String nextUrl) {
-        this.nextUrl = nextUrl;
     }
 
     public Map getData() {
