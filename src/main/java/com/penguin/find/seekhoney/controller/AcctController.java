@@ -46,7 +46,7 @@ public class AcctController {
      */
     @PostMapping("register")
     public String register(HttpServletRequest request) {
-        Map inMap = Util.getParam(request, "json");
+        Map inMap = Util.getJsonParam(request);
         System.out.println("请求参数:" + inMap);
         User user = new User();
         String name = MapUtils.getString(inMap, "name", "");
@@ -75,6 +75,35 @@ public class AcctController {
             responseVo.setCodeAndMsg(ErrorCode.REGISTER);
         }
         return responseVo.toJson();
+    }
+
+    /**
+     * 登录
+     * @param request
+     * @return
+     */
+    @PostMapping("login")
+    public String login(HttpServletRequest request) {
+        Map inMap = Util.getJsonParam(request);
+        System.out.println("请求参数:" + inMap);
+        User user = new User();
+        String name = MapUtils.getString(inMap, "name", "");
+        String password = MapUtils.getString(inMap, "password", "");
+        User existUser = userMapper.getByName(name);
+        if (null == existUser || !password.equals(existUser.getPassword())) {
+            return new ResponseVo(ErrorCode.LOGIN_ERR).toJson();
+        } else {
+            ResponseVo responseVo = new ResponseVo(ErrorCode.SUCCESS);
+            Map userInfo = new HashMap();
+            userInfo.put("user_name", name);
+            userInfo.put("sex", existUser.getSex());
+            userInfo.put("country", existUser.getCountry());
+            userInfo.put("province", existUser.getProvince());
+            userInfo.put("city", existUser.getCity());
+            userInfo.put("head_img", existUser.getHeadimgurl());
+            responseVo.setData(userInfo);
+            return responseVo.toJson();
+        }
     }
 
     /**

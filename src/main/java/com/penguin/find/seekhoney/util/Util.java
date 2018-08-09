@@ -39,7 +39,7 @@ public class Util {
         return param;
     }
 
-    public static Map getParam(HttpServletRequest request, String type) {
+    public static Map getJsonParam(HttpServletRequest request) {
         Map param = new HashMap();
         try {
             InputStream is = request.getInputStream();

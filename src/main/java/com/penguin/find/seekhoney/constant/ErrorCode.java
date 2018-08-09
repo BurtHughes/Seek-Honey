@@ -9,7 +9,8 @@ public enum  ErrorCode {
     WX_GET_SERVER_IP(1, "获取微信服务器IP地址失败"),
     WX_JS_API_AUTH_URL_EMPTY(2, "url入参不能为空"),
     REGISTER(3, "注册失败"),
-    EXIST_USER(4, "用户名已存在");
+    EXIST_USER(4, "用户名已存在"),
+    LOGIN_ERR(5, "用户名或密码错误");
 
     /**
      * 返回码
