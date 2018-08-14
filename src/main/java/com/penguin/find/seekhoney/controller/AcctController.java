@@ -95,7 +95,7 @@ public class AcctController {
         } else {
             ResponseVo responseVo = new ResponseVo(ErrorCode.SUCCESS);
             Map userInfo = new HashMap();
-            userInfo.put("user_name", name);
+            userInfo.put("name", name);
             userInfo.put("sex", existUser.getSex());
             userInfo.put("country", existUser.getCountry());
             userInfo.put("province", existUser.getProvince());
