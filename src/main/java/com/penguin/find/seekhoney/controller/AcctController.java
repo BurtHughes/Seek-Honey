@@ -124,4 +124,12 @@ public class AcctController {
         retMap.put("headimgurl", user.getHeadimgurl());
         return JSON.toJSONString(retMap);
     }
+
+    @PutMapping("user")
+    public String updateUser(HttpServletRequest request) {
+        Map inMap = Util.getJsonParam(request);
+        Log.info(inMap.toString());
+        ResponseVo responseVo = new ResponseVo(ErrorCode.SUCCESS);
+        return responseVo.toJson();
+    }
 }
