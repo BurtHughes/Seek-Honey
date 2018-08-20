@@ -16,7 +16,16 @@
     </select>
 
     <update id="update" parameterType="com.penguin.find.seekhoney.model.User">
-        update user_info set sex = #{sex},country=#{country},province=#{province},city=#{city},headimgurl=#{headimgurl} where id = #{id}
+        update user_info
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="country != null">country = #{country},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="headimgurl != null">headimgurl = #{headimgurl}</if>
+        </set>
+        where id = #{id}
     </update>
 
     <delete id="deleteById" parameterType="int">

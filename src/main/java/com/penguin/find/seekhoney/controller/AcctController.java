@@ -86,7 +86,6 @@ public class AcctController {
     public String login(HttpServletRequest request) {
         Map inMap = Util.getJsonParam(request);
         System.out.println("请求参数:" + inMap);
-        User user = new User();
         String name = MapUtils.getString(inMap, "name", "");
         String password = MapUtils.getString(inMap, "password", "");
         User existUser = userMapper.getByName(name);
@@ -95,6 +94,7 @@ public class AcctController {
         } else {
             ResponseVo responseVo = new ResponseVo(ErrorCode.SUCCESS);
             Map userInfo = new HashMap();
+            userInfo.put("id", existUser.getId());
             userInfo.put("name", name);
             userInfo.put("sex", existUser.getSex());
             userInfo.put("country", existUser.getCountry());
@@ -129,6 +129,9 @@ public class AcctController {
     public String updateUser(HttpServletRequest request) {
         Map inMap = Util.getJsonParam(request);
         Log.info(inMap.toString());
+        User user = new User();
+        user.setInfo(inMap);
+        userMapper.update(user);
         ResponseVo responseVo = new ResponseVo(ErrorCode.SUCCESS);
         return responseVo.toJson();
     }

@@ -1,6 +1,9 @@
 package com.penguin.find.seekhoney.model;
 
+import org.apache.commons.collections.MapUtils;
+
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 用户
@@ -12,68 +15,81 @@ public class User implements Serializable {
     /**
      * 用户ID
      */
-    private int id = 0;
+    private int id;
 
     /**
      * 用户名
      */
-    private String name = "";
+    private String name;
 
     /**
      * 用户密码
      */
-    private String password = "";
+    private String password;
 
     /**
      * 性别
      */
-    private String sex = "";
+    private String sex;
 
     /**
      * 国家
      */
-    private String country = "";
+    private String country;
 
     /**
      * 省份/州
      */
-    private String province = "";
+    private String province;
 
     /**
      * 城市
      */
-    private String city = "";
+    private String city;
 
     /**
      * 头像url
      */
-    private String headimgurl = "";
+    private String headimgurl;
 
     /**
      * 微信openid
      */
-    private String openid = "";
+    private String openid;
 
     /**
      * 微信网页授权token
      */
-    private String webAccessToken = "";
+    private String webAccessToken;
 
     /**
      * 微信网页授权刷新token
      */
-    private String webRefreshToken = "";
+    private String webRefreshToken;
 
     /**
      * 微信网页授权权限
      */
-    private String privilege = "";
+    private String privilege;
 
     /**
      * 微信网页授权有效期<br/>
      * 单位：秒
      */
-    private long expiresIn = 0;
+    private long expiresIn;
+
+    /**
+     * 设置用户信息
+     * @param info 信息数据
+     */
+    public void setInfo(Map info) {
+        this.id = MapUtils.getIntValue(info, "id");
+        this.name = MapUtils.getString(info, "name");
+        this.sex = MapUtils.getString(info, "sex");
+        this.country = MapUtils.getString(info, "country");
+        this.province = MapUtils.getString(info, "province");
+        this.headimgurl = MapUtils.getString(info, "headimgurl");
+    }
 
     public int getId() {
         return id;
