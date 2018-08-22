@@ -58,6 +58,11 @@ public class Product implements Serializable {
     private String shelfLife;
 
     /**
+     * 图片URL
+     */
+    private String imgUrl;
+
+    /**
      * 填充产品信息
      * @param info
      */
@@ -71,6 +76,15 @@ public class Product implements Serializable {
         this.packing = MapUtils.getString(info, "packing");
         this.productionDate = MapUtils.getString(info, "productionDate");
         this.shelfLife = MapUtils.getString(info, "shelfLife");
+        this.imgUrl = MapUtils.getString(info, "imgUrl");
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getSize() {

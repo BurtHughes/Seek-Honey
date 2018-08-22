@@ -5,8 +5,8 @@
 
     <insert id="insert" parameterType="com.penguin.find.seekhoney.model.Product">
         insert into
-        product_info(name,price,count,category,size,packing,production_date,shelf_life)
-        values(#{name},#{price},#{count},#{category},#{size},#{packing},#{productionDate},#{shelfLife})
+        product_info(name,price,count,category,size,packing,production_date,shelf_life,img_url)
+        values(#{name},#{price},#{count},#{category},#{size},#{packing},#{productionDate},#{shelfLife},#{imgUrl})
     </insert>
 
     <select id="getAll" parameterType="String" resultType="com.penguin.find.seekhoney.model.Product">
@@ -24,6 +24,7 @@
             <if test="packing != null">packing = #{packing},</if>
             <if test="productionDate != null">production_date = #{productionDate},</if>
             <if test="shelfLife != null">shelf_life = #{shelfLife},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
         </set>
         where name = #{name}
     </update>
