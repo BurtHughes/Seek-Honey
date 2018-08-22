@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.penguin.find.seekhoney.mapper.ProductMapper">
+
+    <insert id="insert" parameterType="com.penguin.find.seekhoney.model.Product">
+        insert into
+        product_info(name,price,count,category,size,packing,production_date,shelf_life)
+        values(#{name},#{price},#{count},#{category},#{size},#{packing},#{productionDate},#{shelfLife})
+    </insert>
+
+    <select id="getAll" parameterType="String" resultType="com.penguin.find.seekhoney.model.Product">
+        select * from product_info
+    </select>
+
+    <update id="update" parameterType="com.penguin.find.seekhoney.model.Product">
+        update product_info
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="packing != null">packing = #{packing},</if>
+            <if test="productionDate != null">production_date = #{productionDate},</if>
+            <if test="shelfLife != null">shelf_life = #{shelfLife},</if>
+        </set>
+        where name = #{name}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from product_info where name = #{name}
+    </delete>
+</mapper>

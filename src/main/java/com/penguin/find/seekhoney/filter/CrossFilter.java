@@ -33,7 +33,7 @@ public class CrossFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 //        allowOrigin = filterConfig.getInitParameter("allowOrigin");
-        allowOrigin = "http://127.0.0.1:3000,http://16j38760b0.iask.in:16504";
+        allowOrigin = "http://127.0.0.1:3000,http://16j38760b0.iask.in:16504,http://192.168.137.1:3000";
         allowMethods = "POST,GET,PUT,DELETE,OPTIONS";
         allowCredentials = filterConfig.getInitParameter("allowCredentials");
         allowHeaders = filterConfig.getInitParameter("allowHeaders");

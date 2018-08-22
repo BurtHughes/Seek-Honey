@@ -16,10 +16,10 @@ import java.util.Map;
 public class ResponseVo {
 
     /* 响应码 */
-    private int code = -1;
+    private int code = 0;
 
     /* 响应信息 */
-    private String msg = "";
+    private String msg = "执行成功";
 
     /* 返回的数据对象 */
     private Map data = new HashMap();

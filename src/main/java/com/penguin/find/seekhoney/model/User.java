@@ -79,7 +79,7 @@ public class User implements Serializable {
     private long expiresIn;
 
     /**
-     * 设置用户信息
+     * 填充用户信息
      * @param info 信息数据
      */
     public void setInfo(Map info) {
