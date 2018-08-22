@@ -88,6 +88,7 @@ public class User implements Serializable {
         this.sex = MapUtils.getString(info, "sex");
         this.country = MapUtils.getString(info, "country");
         this.province = MapUtils.getString(info, "province");
+        this.city = MapUtils.getString(info, "city");
         this.headimgurl = MapUtils.getString(info, "headimgurl");
     }
 

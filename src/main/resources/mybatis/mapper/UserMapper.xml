@@ -18,7 +18,6 @@
     <update id="update" parameterType="com.penguin.find.seekhoney.model.User">
         update user_info
         <set>
-            <if test="name != null">name = #{name},</if>
             <if test="sex != null">sex = #{sex},</if>
             <if test="country != null">country = #{country},</if>
             <if test="province != null">province = #{province},</if>
